@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to 정민찬's Form Page! 22100667</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to 정민찬's Form Page! 22100667</h1>
+    <form name="myForm">
+      <fieldset>
+        <legend><h2>개인정보 입력 (* 필수)</h2></legend>
+        <div class="grid">
+          <div>
+            <label for="name">
+              * 이름
+            </label>
+            <input type="text" id="name" name="name">
+          </div>
+          <div>
+            <label for="email">
+              * Email
+            </label>
+            <input type="text" id="email" name="email">
+          </div>
+          <div>
+            <label for="userage">
+              * 나이
+            </label>
+            <input type="text" id="userage" name="userage" size="2">
+          </div>
+          <div>
+            <label for="city">
+              도시
+            </label>
+            <select id="city" name="city">
+              <option disabled selected>--Choose City--</option>
+              <option>포항</option>
+              <option>서울</option>
+              <option>부산</option>
+              <option>대구</option>
+              <option>대전</option>
+              <option>광주</option>
+              <option>인천</option>
+              <option>울산</option>
+            </select>
+          </div>
+          <div>
+            <label for="password">
+              * 비밀번호
+            </label>
+            <input type="password" id="password" name="password">
+          </div>
+          <div>
+            <label for="birth">
+              생일
+            </label>
+            <input type="date" id="birth" name="birth">
+            <button onclick="">유효성 확인</button>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>
+          <h2>부가 정보</h2>
+        </legend>
+        <div class="grid">
+          <div>
+            <label>취미</label>
+            <label>
+              <input type="checkbox" name="hobby"> 
+              정적
+            </label>
+            <label>
+              <input type="checkbox" name="hobby"> 
+              동적
+            </label>
+          </div>
+          <div>
+            <label>* 성별</label>
+            <label>
+              <input type="radio" name="gender" value="f">
+               여자
+            </label>
+            <label>
+              <input type="radio" name="gender" value="m">
+               남자
+            </label>
+          </div>
+          <div>
+            <label for="address">
+              주소
+            </label>
+            <textarea id="address" rows="4"></textarea>
+          </div>
+        </div>
+        <div>
+          <label for="favcolor">좋아하는 색상 선택:</label>
+          <input type="color" id="favcolor" name="favcolor" value="#ff0000">
+        </div>
+      </fieldset>
+      <input type="submit" value="Submit">
+      <input type="reset" value="Reset">
+    </form>
+  </div>
+</body>
+</html>
