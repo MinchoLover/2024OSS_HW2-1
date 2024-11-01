@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment#4-1: JavaScript Practice</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="../img/star.jpg">
+</head>
+<body>
+
+<button onclick="getData()">데이터 가져오기</button>
+<br>
+NAME: <input type="text" id="student_name" /><br>
+AGE: <input type="number" id="student_age" /><br>
+ID: <input type="text" id="student_id" /><br>
+Favorite food: <input type="text" id="student_favorite_food" /><br>
+<button onclick="createData()">데이터 추가하기</button>
+<button onclick="updateData()">데이터 수정하기</button>
+<button onclick="deleteData()">데이터 삭제하기</button>
+<div id="div_students"></div>
+
+<script>
+    const apiUrl = "http://localhost:3000/students";
+
+    function getData() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", apiUrl);
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.send();
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                $("#div_students").html("");
+                let students = JSON.parse(xhr.response);
+                students.forEach((item) => {
+                    $("#div_students").append("<div>" + item.id + " " + item.name + "</div>" + item.favorite_food);
+                });
+            }
+        };
+    }
+
+    function createData() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", apiUrl);
+        xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
+
+        let data = {
+            id: $("#student_id").val(),
+            name: $("#student_name").val(),
+            age: $("#student_age").val(),
+            favorite_food: $("#student_favorite_food").val()
+        };
+
+        xhr.send(JSON.stringify(data));
+        xhr.onload = () => {
+            if (xhr.status === 201) {
+                getData();
+            }
+        };
+    }
+
+    function updateData() {
+        let id = $("#student_id").val();
+        const xhr = new XMLHttpRequest();
+        xhr.open("PUT", apiUrl + "/" + id);
+        xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
+
+        let data = {
+            id: $("#student_id").val(),
+            name: $("#student_name").val(),
+            age: $("#student_age").val(),
+            favorite_food: $("#student_favorite_food").val()
+        };
+
+        xhr.send(JSON.stringify(data));
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                alert("수정 성공!");
+                getData();
+            }
+        };
+    }
+
+    function deleteData() {
+        let id = $("#student_id").val();
+        const xhr = new XMLHttpRequest();
+        xhr.open("DELETE", apiUrl + "/" + id);
+        xhr.send();
+        xhr.onload = () => {
+            if (xhr.status === 204) {
+                alert("삭제 성공!");
+                getData();
+            }
+        };
+    }
+
+    $(document).ready(function() {
+        console.log("ready!");
+    });
+</script>
+</body>
+</html>
