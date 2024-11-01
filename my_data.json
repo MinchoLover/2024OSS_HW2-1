@@ -1,10 +1,10 @@
 {
   "students": [
     {
-      "id": "1",
       "name": "홍길동",
-      "age": 25,
-      "favorite_food": "김치찌개"
+      "age": "23",
+      "favorite_food": "김치찌개",
+      "id": "1"
     },
     {
       "id": "2",
@@ -77,6 +77,18 @@
       "name": "정민찬",
       "age": "21",
       "favorite_food": "햄버거"
+    },
+    {
+      "id": "14",
+      "name": "정민초",
+      "age": "13",
+      "favorite_food": "초밥"
+    },
+    {
+      "id": "15",
+      "name": "다니엘",
+      "age": "24",
+      "favorite_food": "돼지국밥"
     }
   ],
   "courses": [

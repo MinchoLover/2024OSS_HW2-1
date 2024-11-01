@@ -6,98 +6,198 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assignment#4-1: JavaScript Practice</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <link rel="shortcut icon" href="../img/star.jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+        }
+        h2 {
+            color: #4a90e2;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        label {
+            width: 100px;
+            font-weight: bold;
+            margin-right: 10px;
+            color: #333;
+        }
+        input[type="text"], input[type="number"] {
+            flex: 1;
+            padding: 8px;
+            margin-right: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-right: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #357ab7;
+        }
+        #div_students {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4a90e2;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 <body>
 
-<button onclick="getData()">데이터 가져오기</button>
-<br>
-NAME: <input type="text" id="student_name" /><br>
-AGE: <input type="number" id="student_age" /><br>
-ID: <input type="text" id="student_id" /><br>
-Favorite food: <input type="text" id="student_favorite_food" /><br>
-<button onclick="createData()">데이터 추가하기</button>
-<button onclick="updateData()">데이터 수정하기</button>
-<button onclick="deleteData()">데이터 삭제하기</button>
+<h2>학생 데이터 관리</h2>
+<div class="form-group">
+    <label for="student_name">이름:</label>
+    <input type="text" id="student_name" />
+</div>
+<div class="form-group">
+    <label for="student_age">나이:</label>
+    <input type="number" id="student_age" />
+</div>
+<div class="form-group">
+    <label for="student_id">ID:</label>
+    <input type="text" id="student_id" />
+</div>
+<div class="form-group">
+    <label for="student_favorite_food">좋아하는 음식:</label>
+    <input type="text" id="student_favorite_food" />
+</div>
+<button id="btnGet">데이터 가져오기</button>
+<button id="btnAdd">데이터 추가하기</button>
+<button id="btnUpdate">데이터 수정하기</button>
+<button id="btnDelete">데이터 삭제하기</button>
+
 <div id="div_students"></div>
 
 <script>
     const apiUrl = "http://localhost:3000/students";
 
-    function getData() {
+    window.onload = function () {
+        document.getElementById("btnGet").addEventListener("click", getStudents);
+        document.getElementById("btnAdd").addEventListener("click", postData);
+        document.getElementById("btnUpdate").addEventListener("click", updateData);
+        document.getElementById("btnDelete").addEventListener("click", deleteData);
+    }
+
+    function getStudents() {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", apiUrl);
         xhr.setRequestHeader("content-type", "application/json");
         xhr.send();
         xhr.onload = () => {
             if (xhr.status === 200) {
-                $("#div_students").html("");
-                let students = JSON.parse(xhr.response);
-                students.forEach((item) => {
-                    $("#div_students").append("<div>" + item.id + " " + item.name + "</div>" + item.favorite_food);
-                });
+                const students = JSON.parse(xhr.response);
+                const list = makeList(students);
+                document.getElementById("div_students").innerHTML = list;
+            } else {
+                console.log(xhr.status, xhr.statusText);
             }
-        };
+        }
     }
 
-    function createData() {
+    function makeList(data) {
+        let str = "<table>";
+        str += "<tr><th>ID</th><th>이름</th><th>나이</th><th>좋아하는 음식</th></tr>";
+        data.forEach(student => {
+            str += `<tr><td>${student.id}</td><td>${student.name}</td><td>${student.age}</td><td>${student.favorite_food}</td></tr>`;
+        });
+        str += "</table>";
+        return str;
+    }
+
+    function postData() {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", apiUrl);
         xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
-
-        let data = {
-            id: $("#student_id").val(),
-            name: $("#student_name").val(),
-            age: $("#student_age").val(),
-            favorite_food: $("#student_favorite_food").val()
+        
+        const data = {
+            name: document.getElementById("student_name").value,
+            age: document.getElementById("student_age").value,
+            favorite_food: document.getElementById("student_favorite_food").value,
+            id: document.getElementById("student_id").value
         };
 
         xhr.send(JSON.stringify(data));
         xhr.onload = () => {
             if (xhr.status === 201) {
-                getData();
+                alert("학생이 추가되었습니다.");
+                getStudents();
+            } else {
+                console.log(xhr.status, xhr.statusText);
             }
-        };
+        }
     }
 
     function updateData() {
-        let id = $("#student_id").val();
+        const id = document.getElementById("student_id").value;
         const xhr = new XMLHttpRequest();
-        xhr.open("PUT", apiUrl + "/" + id);
+        xhr.open("PUT", `${apiUrl}/${id}`);
         xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
 
-        let data = {
-            id: $("#student_id").val(),
-            name: $("#student_name").val(),
-            age: $("#student_age").val(),
-            favorite_food: $("#student_favorite_food").val()
+        const data = {
+            name: document.getElementById("student_name").value,
+            age: document.getElementById("student_age").value,
+            favorite_food: document.getElementById("student_favorite_food").value
         };
 
         xhr.send(JSON.stringify(data));
         xhr.onload = () => {
             if (xhr.status === 200) {
-                alert("수정 성공!");
-                getData();
+                alert("학생 데이터가 수정되었습니다.");
+                getStudents();
+            } else {
+                console.log(xhr.status, xhr.statusText);
             }
-        };
+        }
     }
 
     function deleteData() {
-        let id = $("#student_id").val();
+        const id = document.getElementById("student_id").value;
         const xhr = new XMLHttpRequest();
-        xhr.open("DELETE", apiUrl + "/" + id);
+        xhr.open("DELETE", `${apiUrl}/${id}`);
         xhr.send();
         xhr.onload = () => {
             if (xhr.status === 204) {
-                alert("삭제 성공!");
-                getData();
+                alert("학생 데이터가 삭제되었습니다.");
+                getStudents();
+            } else {
+                console.log(xhr.status, xhr.statusText);
             }
-        };
+        }
     }
-
-    $(document).ready(function() {
-        console.log("ready!");
-    });
 </script>
 </body>
 </html>
