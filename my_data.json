@@ -89,18 +89,6 @@
       "name": "다니엘",
       "age": "24",
       "favorite_food": "돼지국밥"
-    },
-    {
-      "id": "16",
-      "name": "김민찬",
-      "age": "25",
-      "favorite_food": "된장찌개"
-    },
-    {
-      "id": "17",
-      "name": "지석영",
-      "age": "291",
-      "favorite_food": "데이터"
     }
   ]
 }
