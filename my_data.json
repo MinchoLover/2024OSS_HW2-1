@@ -1,9 +1,9 @@
 {
   "students": [
     {
-      "name": "홍길동",
-      "age": "23",
-      "favorite_food": "김치찌개",
+      "name": "홍홍홍",
+      "age": "92",
+      "favorite_food": "김치찜",
       "id": "1"
     },
     {
@@ -89,18 +89,18 @@
       "name": "다니엘",
       "age": "24",
       "favorite_food": "돼지국밥"
-    }
-  ],
-  "courses": [
-    {
-      "id": "1",
-      "cname": "Open source studio",
-      "credit": 3
     },
     {
-      "id": "2",
-      "cname": "Programming studio",
-      "credit": 2
+      "id": "16",
+      "name": "김민찬",
+      "age": "25",
+      "favorite_food": "된장찌개"
+    },
+    {
+      "id": "17",
+      "name": "지석영",
+      "age": "291",
+      "favorite_food": "데이터"
     }
   ]
 }
